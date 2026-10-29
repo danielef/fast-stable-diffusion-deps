@@ -1,0 +1,84 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "commitMessagePrefix": "fix(deps):",
+  "npm": {
+    "enabled": true,
+    "pinVersions": true
+  },
+  "pip_requirements": {
+    "fileMatch": ["^requirements/.*\\.txt$"],
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "description": "Packages pinned below Colab's version due to Forge API compatibility — require manual review before merging",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["numpy", "gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow"],
+      "labels": ["downgrade-override"],
+      "automerge": false,
+      "schedule": ["every weekend"]
+    },
+    {
+      "description": "numpy must stay on 1.x — NumPy 2.x changed the C extension ABI and breaks Forge's compiled deps",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["numpy"],
+      "allowedVersions": ">=1.0.0,<2.0.0"
+    },
+    {
+      "description": "gradio must stay on 4.x — Forge uses the 4.x UI API",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["gradio"],
+      "allowedVersions": ">=4.0.0,<5.0.0"
+    },
+    {
+      "description": "Pillow must stay below 11.0 — gradio 4.x requires pillow<11.0",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["Pillow"],
+      "allowedVersions": ">=8.0.0,<11.0.0"
+    },
+    {
+      "description": "transformers must stay on 4.x — Forge relies on the 4.x API",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["transformers"],
+      "allowedVersions": ">=4.0.0,<5.0.0"
+    },
+    {
+      "description": "Forge-specific packages not in Colab — safe to automerge patch/minor updates",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": [
+        "GitPython",
+        "blendmodes",
+        "clean-fid",
+        "diskcache",
+        "facexlib",
+        "inflection",
+        "jsonmerge",
+        "kornia",
+        "omegaconf",
+        "open-clip-torch",
+        "piexif",
+        "resize-right",
+        "spandrel",
+        "spandrel-extra-arches",
+        "tomesd",
+        "torchdiffeq",
+        "torchsde",
+        "pillow-avif-plugin",
+        "gradio_rangeslider",
+        "gradio_imageslider",
+        "loadimg",
+        "setuptools"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "schedule": ["every weekend"]
+    },
+    {
+      "description": "pytorch_lightning is pinned hard by Forge — updates need a manual Forge compatibility test",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["pytorch_lightning"],
+      "enabled": false
+    }
+  ]
+}

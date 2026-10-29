@@ -1,0 +1,12 @@
+{
+  "name": "fast-stable-diffusion-deps",
+  "version": "0.0.0-development",
+  "description": "Prebuilt dependency blob for fast-stable-diffusion (Forge)",
+  "private": true,
+  "devDependencies": {
+    "@semantic-release/changelog": "6.0.3",
+    "@semantic-release/git": "10.0.1",
+    "conventional-changelog-conventionalcommits": "7.0.2",
+    "semantic-release": "24.2.0"
+  }
+}
