@@ -1,0 +1,118 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # ------------------------------------------------------------------
+  # Tier 1: dep install + import smoke test (no GPU needed)
+  # ------------------------------------------------------------------
+  smoke-test:
+    name: Smoke test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements/forge.txt
+
+      - name: Install system deps
+        run: sudo apt-get install -y libavif-dev
+
+      - name: Install deps
+        run: |
+          pip install --upgrade pip
+          # CPU torch first — torch-dependent packages (kornia, torchdiffeq, etc.) need it present
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements/forge.txt
+
+      - name: Import smoke test
+        run: |
+          python -c "
+          import gradio, transformers, diffusers, accelerate
+          import numpy, einops, omegaconf, safetensors
+          import kornia, spandrel
+          import git
+          print('✓ All imports OK')
+          print(f'  gradio        {gradio.__version__}')
+          print(f'  transformers  {transformers.__version__}')
+          print(f'  numpy         {numpy.__version__}')
+          print(f'  diffusers     {diffusers.__version__}')
+          "
+
+  # ------------------------------------------------------------------
+  # Build + publish the blob on every push to main (after PR merge).
+  # Requires the smoke test to pass first.
+  # The semantic-release step creates the Git tag; the upload step
+  # attaches the blob as a release asset.
+  # ------------------------------------------------------------------
+  release:
+    name: Build blob + release
+    needs: smoke-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write  # needed to create releases
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # semantic-release needs full history
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: requirements/forge.txt
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: semantic-release
+        id: semrel
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm install --save-dev \
+            semantic-release \
+            @semantic-release/changelog \
+            @semantic-release/git \
+            conventional-changelog-conventionalcommits
+          npx semantic-release
+
+      - name: Install system deps
+        if: steps.semrel.outputs.new_release_published == 'true'
+        run: sudo apt-get install -y libavif-dev
+
+      - name: Install deps for blob build
+        if: steps.semrel.outputs.new_release_published == 'true'
+        run: |
+          pip install --upgrade pip
+          # Install torch CPU-only just to satisfy import checks in build script
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements/forge.txt
+
+      - name: Build blob
+        if: steps.semrel.outputs.new_release_published == 'true'
+        run: bash scripts/build_blob.sh
+
+      - name: Upload blob to release
+        if: steps.semrel.outputs.new_release_published == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ steps.semrel.outputs.new_release_version }}
+          gh release upload "v${VERSION}" gcolabdeps_forge.tar.zst --clobber
+
+      # The notebook repo's Renovate config watches this repo's GitHub Releases
+      # and opens a PR automatically when a new version is published.

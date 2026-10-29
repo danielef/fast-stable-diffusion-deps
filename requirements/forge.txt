@@ -1,0 +1,60 @@
+# Forge (stable-diffusion-webui-forge) pinned dependencies
+# Built from: https://github.com/lllyasviel/stable-diffusion-webui-forge/blob/main/requirements_versions.txt
+#
+# Packages already provided by Colab at compatible versions are omitted:
+#   torch, torchvision, torchaudio  (Colab: 2.11.0+cu130 — use as-is)
+#   tqdm, requests, psutil, lark, httpx, pydantic (Colab versions compatible)
+#   scikit-image  (Colab: 0.25.2 — compatible; 0.21.0 has no py3.13 wheel)
+#
+# The blob OVERWRITES these Colab packages with the versions below because
+# Colab ships newer versions that break Forge's internals:
+#   numpy:        Colab 2.1.3  → blob 1.26.4  (NumPy 2.x ABI breaks compiled extensions)
+#   gradio:       Colab 6.30.0 → blob 4.40.0  (Forge uses gradio 4.x API)
+#   transformers: Colab 5.21.0 → blob 4.46.1  (Forge relies on 4.x API)
+#   diffusers:    Colab 0.42.1 → blob 0.31.0
+#   accelerate:   Colab 1.15.0 → blob 0.31.0
+#   protobuf:     Colab 6.33.6 → blob 3.20.0  (Forge hardcodes 3.x API; ships py3-none-any wheel)
+#   Pillow:       Colab 11.3.0 → blob 10.4.0  (gradio 4.x requires pillow<11.0; blendmodes 2024 requires pillow>=10.0; 10.4.0 has py3.13 wheels)
+#
+# Colab versions accepted as-is:
+#   einops        Colab 0.8.2  — core API backward compatible
+#   huggingface-hub Colab 1.33.0 — model download API stable
+#   peft          Colab 0.21.2 — minor version difference, compatible
+#   safetensors   Colab 0.8.0  — stable API throughout
+
+# --- Forge-specific (not in Colab) ---
+GitPython==3.1.32
+blendmodes==2024
+clean-fid==0.1.35
+diskcache==5.6.3
+facexlib==0.3.0
+inflection==0.5.1
+jsonmerge==1.8.0
+kornia==0.6.7
+omegaconf==2.2.3
+open-clip-torch==2.20.0
+piexif==1.1.3
+pytorch_lightning==1.9.4
+resize-right==0.0.2
+spandrel==0.3.4
+spandrel-extra-arches==0.1.1
+tomesd==0.1.3
+torchdiffeq==0.2.3
+torchsde==0.2.6
+pillow-avif-plugin==1.4.3
+gradio_rangeslider==0.0.6
+gradio_imageslider==0.0.20
+loadimg==0.1.2
+setuptools==69.5.1
+
+# --- Python 3.13 compatibility shims ---
+audioop-lts==0.2.2
+
+# --- Downgrades (overwrite Colab's newer incompatible versions) ---
+numpy==1.26.4
+gradio==4.40.0
+transformers==4.46.1
+diffusers==0.31.0
+accelerate==0.31.0
+protobuf==3.20.0
+Pillow==10.4.0
