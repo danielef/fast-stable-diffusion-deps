@@ -1,7 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
-  "commitMessagePrefix": "fix(deps):",
   "npm": {
     "rangeStrategy": "pin"
   },
@@ -73,6 +72,24 @@
       "automerge": true,
       "automergeType": "branch",
       "schedule": ["every weekend"]
+    },
+    {
+      "description": "pip dependency updates change the blob — use fix(deps) to trigger a patch release",
+      "matchManagers": ["pip_requirements"],
+      "semanticCommitType": "fix",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "description": "GitHub Actions updates only affect CI, not the blob — use chore(ci)",
+      "matchManagers": ["github-actions"],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "ci"
+    },
+    {
+      "description": "npm updates are toolchain-only, not the blob — use chore(deps)",
+      "matchManagers": ["npm"],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
     },
     {
       "description": "pytorch_lightning is pinned hard by Forge — updates need a manual Forge compatibility test",

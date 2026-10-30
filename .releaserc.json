@@ -6,7 +6,6 @@
       "releaseRules": [
         { "type": "fix",   "scope": "deps", "release": "patch" },
         { "type": "feat",  "release": "minor" },
-        { "type": "chore", "scope": "deps", "release": "patch" },
         { "breaking": true, "release": "major" }
       ]
     }],
