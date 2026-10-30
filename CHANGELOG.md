@@ -1,3 +1,10 @@
+## [1.0.5](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.4...v1.0.5) (2026-10-30)
+
+
+### Bug Fixes
+
+* **deps:** pin huggingface-hub to 0.26.0 ([19cdf5c](https://github.com/danielef/fast-stable-diffusion-deps/commit/19cdf5ccc3de99683e481f50d443c6e5cc80575f))
+
 ## [1.0.4](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.3...v1.0.4) (2026-10-30)
 
 
