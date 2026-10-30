@@ -88,7 +88,16 @@ jobs:
             @semantic-release/changelog \
             @semantic-release/git \
             conventional-changelog-conventionalcommits
+          # Capture the latest tag before running so we can detect if a new one is created.
+          TAG_BEFORE=$(git tag --sort=-v:refname | head -1)
           npx semantic-release
+          TAG_AFTER=$(git tag --sort=-v:refname | head -1)
+          if [ "$TAG_AFTER" != "$TAG_BEFORE" ] && [ -n "$TAG_AFTER" ]; then
+            echo "new_release_published=true"  >> "$GITHUB_OUTPUT"
+            echo "new_release_version=${TAG_AFTER#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "new_release_published=false" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Install system deps
         if: steps.semrel.outputs.new_release_published == 'true'
