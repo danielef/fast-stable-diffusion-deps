@@ -110,6 +110,13 @@ jobs:
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements/forge.txt
 
+      - name: Prepare blob target directory
+        if: steps.semrel.outputs.new_release_published == 'true'
+        run: |
+          PY_VER=$(python3 -c "import sys; print(f'python{sys.version_info.major}.{sys.version_info.minor}')")
+          sudo mkdir -p "/usr/local/lib/${PY_VER}/dist-packages"
+          sudo chown -R "$USER" "/usr/local/lib/${PY_VER}"
+
       - name: Build blob
         if: steps.semrel.outputs.new_release_published == 'true'
         run: bash scripts/build_blob.sh
