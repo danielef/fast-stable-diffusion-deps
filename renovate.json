@@ -12,7 +12,7 @@
     {
       "description": "Packages pinned below Colab's version due to Forge API compatibility — require manual review before merging",
       "matchManagers": ["pip_requirements"],
-      "matchPackageNames": ["numpy", "gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow"],
+      "matchPackageNames": ["numpy", "gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow", "open-clip-torch"],
       "labels": ["downgrade-override"],
       "automerge": false,
       "schedule": ["every weekend"]
@@ -42,6 +42,24 @@
       "allowedVersions": ">=4.0.0,<5.0.0"
     },
     {
+      "description": "protobuf must stay on 3.x — Forge hardcodes the 3.x API; protobuf 4+ is a breaking rewrite",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["protobuf"],
+      "allowedVersions": ">=3.0.0,<4.0.0"
+    },
+    {
+      "description": "accelerate must stay on 0.x — Forge depends on 0.x API; v1 introduced breaking changes",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["accelerate"],
+      "allowedVersions": ">=0.0.0,<1.0.0"
+    },
+    {
+      "description": "open-clip-torch must stay on 2.x — v3 may introduce breaking API changes incompatible with Forge",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["open-clip-torch"],
+      "allowedVersions": ">=2.0.0,<3.0.0"
+    },
+    {
       "description": "Forge-specific packages not in Colab — safe to automerge patch/minor updates",
       "matchManagers": ["pip_requirements"],
       "matchPackageNames": [
@@ -54,7 +72,6 @@
         "jsonmerge",
         "kornia",
         "omegaconf",
-        "open-clip-torch",
         "piexif",
         "resize-right",
         "spandrel",
