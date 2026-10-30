@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.2...v1.0.3) (2026-10-30)
+
+
+### Bug Fixes
+
+* **ci:** create dist-packages dir before blob build ([119dd03](https://github.com/danielef/fast-stable-diffusion-deps/commit/119dd0372b60978fcffe7a84e4a4c6022f4b5179))
+
 ## [1.0.2](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.1...v1.0.2) (2026-10-30)
 
 
