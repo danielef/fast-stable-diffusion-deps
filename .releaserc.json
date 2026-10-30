@@ -2,7 +2,11 @@
   "branches": ["main"],
   "plugins": [
     ["@semantic-release/commit-analyzer", {
-      "preset": "conventionalcommits",
+      "preset": "angular",
+      "parserOpts": {
+        "breakingHeaderPattern": "^(\\w*)(?:\\((.*)\\))?!:\\s(.*)$",
+        "noteKeywords": ["BREAKING CHANGE", "BREAKING-CHANGE"]
+      },
       "releaseRules": [
         { "type": "fix",   "scope": "deps", "release": "patch" },
         { "type": "feat",  "release": "minor" },
@@ -10,7 +14,11 @@
       ]
     }],
     ["@semantic-release/release-notes-generator", {
-      "preset": "conventionalcommits"
+      "preset": "angular",
+      "parserOpts": {
+        "breakingHeaderPattern": "^(\\w*)(?:\\((.*)\\))?!:\\s(.*)$",
+        "noteKeywords": ["BREAKING CHANGE", "BREAKING-CHANGE"]
+      }
     }],
     ["@semantic-release/changelog", {
       "changelogFile": "CHANGELOG.md"
