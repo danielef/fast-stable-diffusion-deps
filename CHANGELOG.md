@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.3...v1.0.4) (2026-10-30)
+
+
+### Bug Fixes
+
+* **deps:** add pytorch_lightning runtime deps to blob ([baf479c](https://github.com/danielef/fast-stable-diffusion-deps/commit/baf479cf45bac48c0c26ec612bc1309f53dd86bb))
+
 ## [1.0.3](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.2...v1.0.3) (2026-10-30)
 
 
