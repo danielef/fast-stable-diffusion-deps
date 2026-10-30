@@ -79,6 +79,18 @@
       "matchManagers": ["pip_requirements"],
       "matchPackageNames": ["pytorch_lightning"],
       "enabled": false
+    },
+    {
+      "description": "Python version must match Colab exactly — update manually following the process in README.md",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["python"],
+      "enabled": false
+    },
+    {
+      "description": "Ubuntu runner must match Colab exactly — update manually following the process in README.md",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["ubuntu"],
+      "enabled": false
     }
   ]
 }
