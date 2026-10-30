@@ -31,11 +31,13 @@ $PYTHON -c "
 import gradio, transformers, diffusers, accelerate
 import numpy, einops, omegaconf, safetensors
 import kornia, torchdiffeq, torchsde, spandrel
+import pytorch_lightning
 print('✓ All imports OK')
-print(f'  gradio        {gradio.__version__}')
-print(f'  transformers  {transformers.__version__}')
-print(f'  numpy         {numpy.__version__}')
-print(f'  diffusers     {diffusers.__version__}')
+print(f'  gradio              {gradio.__version__}')
+print(f'  transformers        {transformers.__version__}')
+print(f'  numpy               {numpy.__version__}')
+print(f'  diffusers           {diffusers.__version__}')
+print(f'  pytorch_lightning   {pytorch_lightning.__version__}')
 "
 
 # Create the tarball (relative paths inside, extracted with -C /usr/local/lib/$PY_VER/dist-packages)
