@@ -77,7 +77,7 @@
     {
       "description": "pytorch_lightning is pinned hard by Forge — updates need a manual Forge compatibility test",
       "matchManagers": ["pip_requirements"],
-      "matchPackageNames": ["pytorch_lightning"],
+      "matchDepNames": ["pytorch_lightning"],
       "enabled": false
     },
     {
