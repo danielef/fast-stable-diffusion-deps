@@ -86,8 +86,7 @@ jobs:
           npm install --save-dev \
             semantic-release \
             @semantic-release/changelog \
-            @semantic-release/git \
-            conventional-changelog-conventionalcommits
+            @semantic-release/git
           # Capture the latest tag before running so we can detect if a new one is created.
           TAG_BEFORE=$(git tag --sort=-v:refname | head -1)
           npx semantic-release
