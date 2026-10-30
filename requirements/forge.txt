@@ -15,10 +15,10 @@
 #   accelerate:   Colab 1.15.0 → blob 0.31.0
 #   protobuf:     Colab 6.33.6 → blob 3.20.0  (Forge hardcodes 3.x API; ships py3-none-any wheel)
 #   Pillow:       Colab 11.3.0 → blob 10.4.0  (gradio 4.x requires pillow<11.0; blendmodes 2024 requires pillow>=10.0; 10.4.0 has py3.13 wheels)
+#   huggingface-hub: Colab 1.33.0 → blob 0.26.0  (1.x removed HfFolder; gradio 4.40.0 imports it; peft 0.21.2 requires >=0.25.0)
 #
 # Colab versions accepted as-is:
 #   einops        Colab 0.8.2  — core API backward compatible
-#   huggingface-hub Colab 1.33.0 — model download API stable
 #   peft          Colab 0.21.2 — minor version difference, compatible
 #   safetensors   Colab 0.8.0  — stable API throughout
 
@@ -60,3 +60,4 @@ diffusers==0.31.0
 accelerate==0.31.0
 protobuf==3.20.0
 Pillow==10.4.0
+huggingface-hub==0.26.0

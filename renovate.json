@@ -12,7 +12,7 @@
     {
       "description": "Packages pinned below Colab's version due to Forge API compatibility — require manual review before merging",
       "matchManagers": ["pip_requirements"],
-      "matchPackageNames": ["numpy", "gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow", "open-clip-torch"],
+      "matchPackageNames": ["numpy", "gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow", "open-clip-torch", "huggingface-hub"],
       "labels": ["downgrade-override"],
       "automerge": false,
       "schedule": ["every weekend"]
@@ -58,6 +58,12 @@
       "matchManagers": ["pip_requirements"],
       "matchPackageNames": ["open-clip-torch"],
       "allowedVersions": ">=2.0.0,<3.0.0"
+    },
+    {
+      "description": "huggingface-hub must stay on 0.x — 1.x removed HfFolder (gradio 4.40.0 imports it); floor at 0.25.0 for peft 0.21.2 which needs LocalEntryNotFoundError",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["huggingface-hub"],
+      "allowedVersions": ">=0.25.0,<1.0.0"
     },
     {
       "description": "Forge-specific packages not in Colab — safe to automerge patch/minor updates",
