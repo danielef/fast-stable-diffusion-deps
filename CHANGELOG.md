@@ -1,3 +1,11 @@
+## [1.0.2](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.1...v1.0.2) (2026-10-30)
+
+
+### Bug Fixes
+
+* **ci:** capture semantic-release output to gate blob build ([cb56b99](https://github.com/danielef/fast-stable-diffusion-deps/commit/cb56b999151ff0c6388a208a125e860e849f8052))
+* **ci:** switch semantic-release preset from conventionalcommits to angular ([7020e64](https://github.com/danielef/fast-stable-diffusion-deps/commit/7020e644df4b03a2127b5278517793507f190ea0))
+
 ## <small>1.0.1 (2026-10-30)</small>
 
 * fix(deps): Update dependency semantic-release to v24.2.9 ([f3e9096](https://github.com/danielef/fast-stable-diffusion-deps/commit/f3e9096))
