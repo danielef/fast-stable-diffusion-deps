@@ -24,7 +24,7 @@
 
 # --- Forge-specific (not in Colab) ---
 GitPython==3.1.32
-blendmodes==2024
+blendmodes==2024.1.1
 clean-fid==0.1.35
 diskcache==5.6.3
 facexlib==0.3.0
