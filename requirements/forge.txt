@@ -23,7 +23,7 @@
 #   safetensors   Colab 0.8.0  — stable API throughout
 
 # --- Forge-specific (not in Colab) ---
-GitPython==3.1.32
+GitPython==3.2.1
 blendmodes==2024
 clean-fid==0.1.35
 diskcache==5.6.3
