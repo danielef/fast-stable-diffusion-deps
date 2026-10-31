@@ -54,7 +54,7 @@ audioop-lts==0.2.2
 
 # --- Downgrades (overwrite Colab's newer incompatible versions) ---
 numpy==1.26.4
-gradio==4.40.0
+gradio==4.44.1
 transformers==4.46.1
 diffusers==0.31.0
 accelerate==0.31.0
