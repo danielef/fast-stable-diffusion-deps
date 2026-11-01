@@ -161,12 +161,11 @@ except (ImportError, AttributeError):
     pass
 SCEOF
 
-# Patch gradio_client/utils.py: add an isinstance guard to get_type() so it
-# handles boolean JSON Schema values (True/False).  Pydantic v2 emits
-# additionalProperties: true which gradio 4.40.0 passes to get_type(); the
-# function does `if "const" in schema` which raises TypeError when schema is a
-# bool.  This crashes the main route handler, makes gradio's url_ok() health
-# check see 500 instead of 200, and raises "When localhost is not accessible".
+# Patch gradio_client/utils.py: pydantic v2 emits additionalProperties: true/false
+# as Python bools.  Two functions crash when a bool reaches them:
+#   get_type(schema)                    — `if "const" in schema` raises TypeError
+#   _json_schema_to_python_type(schema) — falls through to APIInfoParseError
+# Both are fixed by `if not isinstance(schema, dict): return "Any"` at function entry.
 $PYTHON - "$DIST_PACKAGES" <<'PYEOF'
 import pathlib, re, sys
 
@@ -178,21 +177,26 @@ if not p.exists():
 src = p.read_text()
 GUARD = '    if not isinstance(schema, dict):\n        return "Any"\n'
 
-if GUARD in src:
-    print('skip: gradio_client/utils.py already patched')
-    sys.exit(0)
+changed = False
 
-# Match the function signature regardless of type annotation, e.g.:
-#   def get_type(schema):
-#   def get_type(schema: dict):
-SIG_RE = re.compile(r'(def get_type\(schema[^)]*\):\n)')
-if not SIG_RE.search(src):
-    print('WARNING: get_type signature not found in gradio_client/utils.py — skipping patch')
-    sys.exit(0)
+for fname, sig_re in [
+    ('get_type',                    re.compile(r'(def get_type\(schema[^)]*\)[^:\n]*:\n)')),
+    ('_json_schema_to_python_type', re.compile(r'(def _json_schema_to_python_type\(schema[^)]*\)[^:\n]*:\n)')),
+]:
+    m = sig_re.search(src)
+    if not m:
+        print(f'WARNING: {fname} not found in gradio_client/utils.py — skipping')
+        continue
+    insert_pos = m.end()
+    if src[insert_pos:insert_pos + len(GUARD)] == GUARD:
+        print(f'skip {fname}: already patched')
+        continue
+    src = src[:insert_pos] + GUARD + src[insert_pos:]
+    changed = True
+    print(f'✓ Patched gradio_client/utils.py: bool-schema guard in {fname}()')
 
-patched = SIG_RE.sub(lambda m: m.group(1) + GUARD, src, count=1)
-p.write_text(patched)
-print('✓ Patched gradio_client/utils.py: bool-schema guard in get_type()')
+if changed:
+    p.write_text(src)
 PYEOF
 
 # Smoke-test: verify critical imports and that TF/JAX are correctly disabled
