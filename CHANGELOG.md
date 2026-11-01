@@ -1,3 +1,10 @@
+## [1.0.8](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.7...v1.0.8) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deps:** shim accelerate.utils.memory.clear_device_cache for peft compat ([675e5d0](https://github.com/danielef/fast-stable-diffusion-deps/commit/675e5d03dfc25cbe82b7bd02acd79857eabd2e20))
+
 ## [1.0.7](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.6...v1.0.7) (2026-11-01)
 
 
