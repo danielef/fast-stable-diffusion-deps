@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.10...v1.0.11) (2026-11-01)
+
+
+### Bug Fixes
+
+* pin starlette==1.3.1 and fastapi==0.133.0; patch TemplateResponse backward-compat ([ed2c289](https://github.com/danielef/fast-stable-diffusion-deps/commit/ed2c2890c6feb6cd0442e5d7831517d09619d5b1))
+
 ## [1.0.10](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.9...v1.0.10) (2026-11-01)
 
 
