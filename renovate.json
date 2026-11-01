@@ -60,6 +60,18 @@
       "allowedVersions": ">=0.25.0,<1.0.0"
     },
     {
+      "description": "starlette floor at 1.3.1 — first release fixing GHSA-82w8-qh3p-5jfq (url-encoded form parser ignores max_fields/max_part_size); also fixes CVE-2024-47874 (multipart) and CVE-2025-62727 (Range header); old-style TemplateResponse(name, context) restored via build_blob.sh patch",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["starlette"],
+      "allowedVersions": ">=1.3.1,<2.0.0"
+    },
+    {
+      "description": "fastapi floor at 0.133.0 — first release that drops the starlette<1.0.0 upper bound, making it compatible with starlette 1.3.1",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["fastapi"],
+      "allowedVersions": ">=0.133.0,<1.0.0"
+    },
+    {
       "description": "Forge-specific packages not in Colab — safe to automerge patch/minor updates",
       "matchManagers": ["pip_requirements"],
       "matchPackageNames": [
