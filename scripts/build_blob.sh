@@ -94,7 +94,7 @@ pip install \
 # PYTHONPATH (which cell 5 sets for the Forge subprocess).  It runs after
 # site-packages are on sys.path, so Colab's numpy is already importable.
 #
-# It does two things:
+# It does three things:
 #   1. Disables TF/JAX backends in Transformers via USE_TF=0 / USE_FLAX=0.
 #      Transformers 4.46.1 checks these env vars at import time before calling
 #      find_spec(); setting them to "0" makes is_tf_available() /
@@ -106,6 +106,10 @@ pip install \
 #   2. Restores the NumPy 1.x aliases (np.Inf, np.NaN, np.bool, …) that
 #      NumPy 2.0 removed.  pytorch_lightning 1.9.4's ModelCheckpoint uses
 #      np.Inf; without this patch any Trainer instantiation raises AttributeError.
+#   3. Back-fills accelerate.utils.memory.clear_device_cache if absent.
+#      Colab's peft (>= 0.10) imports this function, which was added to
+#      accelerate after 0.31.0 (the version the blob pins for Forge compat).
+#      Without the shim, peft fails to import entirely, breaking diffusers LoRA.
 cat > "$DIST_PACKAGES/sitecustomize.py" << 'SCEOF'
 import os
 
@@ -134,6 +138,26 @@ try:
         if not hasattr(_np, _k):
             setattr(_np, _k, _v)
 except ImportError:
+    pass
+
+# ── 3. accelerate.utils.memory.clear_device_cache shim ────────────
+# Added to accelerate after 0.31.0; Colab's peft imports it at startup.
+try:
+    import accelerate.utils.memory as _aum
+    if not hasattr(_aum, 'clear_device_cache'):
+        import gc as _gc
+        def _clear_device_cache(garbage_collection=False):
+            if garbage_collection:
+                _gc.collect()
+            try:
+                import torch as _torch
+                if _torch.cuda.is_available():
+                    _torch.cuda.empty_cache()
+            except ImportError:
+                pass
+        _aum.clear_device_cache = _clear_device_cache
+        del _clear_device_cache
+except (ImportError, AttributeError):
     pass
 SCEOF
 
