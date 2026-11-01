@@ -12,16 +12,10 @@
     {
       "description": "Packages pinned below Colab's version due to Forge API compatibility — require manual review before merging",
       "matchManagers": ["pip_requirements"],
-      "matchPackageNames": ["numpy", "gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow", "open-clip-torch", "huggingface-hub"],
+      "matchPackageNames": ["gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow", "open-clip-torch", "huggingface-hub"],
       "labels": ["downgrade-override"],
       "automerge": false,
       "schedule": ["every weekend"]
-    },
-    {
-      "description": "numpy must stay on 1.x — NumPy 2.x changed the C extension ABI and breaks Forge's compiled deps",
-      "matchManagers": ["pip_requirements"],
-      "matchPackageNames": ["numpy"],
-      "allowedVersions": ">=1.0.0,<2.0.0"
     },
     {
       "description": "gradio must stay on 4.x — Forge uses the 4.x UI API",
