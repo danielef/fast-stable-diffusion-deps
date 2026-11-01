@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.6...v1.0.7) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deps:** remove numpy downgrade from blob ([7e79fac](https://github.com/danielef/fast-stable-diffusion-deps/commit/7e79fac223f8c71962717fc28aaa320064164541))
+
 ## [1.0.6](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.5...v1.0.6) (2026-11-01)
 
 
