@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.8...v1.0.9) (2026-11-01)
+
+
+### Bug Fixes
+
+* **deps:** patch gradio_client get_type() to handle bool JSON Schema values ([5535fa9](https://github.com/danielef/fast-stable-diffusion-deps/commit/5535fa90fe9f0475e9bda1e169816db120012c1f))
+
 ## [1.0.8](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.7...v1.0.8) (2026-11-01)
 
 
