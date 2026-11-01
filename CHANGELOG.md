@@ -1,3 +1,10 @@
+## [1.0.10](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.9...v1.0.10) (2026-11-01)
+
+
+### Bug Fixes
+
+* patch _json_schema_to_python_type() for bool JSON Schema values ([547b3ab](https://github.com/danielef/fast-stable-diffusion-deps/commit/547b3ab202192dd68fe11c5d0f6fd36c14e7ab83))
+
 ## [1.0.9](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.8...v1.0.9) (2026-11-01)
 
 
