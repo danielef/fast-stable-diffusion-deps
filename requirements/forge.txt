@@ -8,7 +8,6 @@
 #
 # The blob OVERWRITES these Colab packages with the versions below because
 # Colab ships newer versions that break Forge's internals:
-#   numpy:        Colab 2.1.3  → blob 1.26.4  (NumPy 2.x ABI breaks compiled extensions)
 #   gradio:       Colab 6.30.0 → blob 4.40.0  (Forge uses gradio 4.x API)
 #   transformers: Colab 5.21.0 → blob 4.46.1  (Forge relies on 4.x API)
 #   diffusers:    Colab 0.42.1 → blob 0.31.0
@@ -18,6 +17,11 @@
 #   huggingface-hub: Colab 1.33.0 → blob 0.26.0  (1.x removed HfFolder; gradio 4.40.0 imports it; peft 0.21.2 requires >=0.25.0)
 #
 # Colab versions accepted as-is:
+#   numpy         Colab 2.1.3  — Forge's pin (1.26.4) was overly conservative; none of
+#                               our blob packages use the NumPy C ABI directly, and the
+#                               downgrade broke Colab's JAX/TF (numpy.dtypes.StringDType
+#                               requires NumPy 2.x), which are loaded transitively by
+#                               transformers 4.46.1 at startup
 #   einops        Colab 0.8.2  — core API backward compatible
 #   peft          Colab 0.21.2 — minor version difference, compatible
 #   safetensors   Colab 0.8.0  — stable API throughout
@@ -53,7 +57,6 @@ setuptools==69.5.1
 audioop-lts==0.2.2
 
 # --- Downgrades (overwrite Colab's newer incompatible versions) ---
-numpy==1.26.4
 gradio==4.40.0
 transformers==4.46.1
 diffusers==0.31.0

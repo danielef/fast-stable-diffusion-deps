@@ -51,10 +51,10 @@ The most critical ones:
 
 | Package | Colab ships | Blob pins | Reason |
 |---|---|---|---|
-| numpy | 2.x | 1.26.x | NumPy 2 changed the C extension ABI |
 | gradio | 6.x | 4.x | Forge uses the gradio 4 API |
 | transformers | 5.x | 4.46.x | Forge relies on 4.x API |
 | protobuf | 6.x | 3.20.x | Forge hardcodes 3.x protobuf API |
+| numpy | 2.x | _(not pinned — Colab's 2.x used)_ | None of the blob packages use the NumPy C ABI directly; a former 1.26.x pin broke Colab's JAX/TF (`numpy.dtypes.StringDType` requires NumPy 2.x), which are loaded transitively by transformers 4.46.1 at startup |
 
 ## Local development
 
