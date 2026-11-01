@@ -199,6 +199,39 @@ if changed:
     p.write_text(src)
 PYEOF
 
+# Patch starlette/templating.py: gradio 4.40.0 and Forge's ui_gradio_extensions.py call
+# TemplateResponse(name, context) — the old-style API removed in starlette 1.0.0.  In 1.x the
+# first positional arg is expected to be a Request; passing a string makes name=context_dict,
+# so get_template(dict) raises TypeError: unhashable type: 'dict' in jinja2's LRU cache.
+# The guard detects the old-style call (first arg is a str) and reorders args so the 1.x body
+# runs correctly.
+$PYTHON - "$DIST_PACKAGES" <<'PYEOF'
+import pathlib, sys
+
+p = pathlib.Path(sys.argv[1]) / 'starlette' / 'templating.py'
+if not p.exists():
+    print(f'skip: {p} not found')
+    sys.exit(0)
+
+src = p.read_text()
+
+GUARD = (
+    '        if isinstance(request, str):\n'
+    '            context = name if isinstance(name, dict) else {}\n'
+    '            name, request = request, context.pop("request", None)\n'
+)
+ANCHOR = '        context = context or {}\n'
+
+if GUARD in src:
+    print('skip: starlette/templating.py already patched')
+elif ANCHOR in src:
+    src = src.replace(ANCHOR, GUARD + ANCHOR, 1)
+    p.write_text(src)
+    print('✓ Patched starlette/templating.py: backward-compat for TemplateResponse(name, context)')
+else:
+    print('WARNING: expected anchor not found in starlette/templating.py — skipping')
+PYEOF
+
 # Smoke-test: verify critical imports and that TF/JAX are correctly disabled
 PYTHONPATH="$DIST_PACKAGES" $PYTHON -c "
 import os
