@@ -1,3 +1,10 @@
+## [1.0.6](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.5...v1.0.6) (2026-11-01)
+
+
+### Bug Fixes
+
+* install transitive deps in blob build second pass ([4a4e639](https://github.com/danielef/fast-stable-diffusion-deps/commit/4a4e639f02e210351f1c269127631dbecdb2c1d9))
+
 ## [1.0.5](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.4...v1.0.5) (2026-10-30)
 
 
