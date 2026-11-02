@@ -37,7 +37,7 @@ jobs:
       - name: Import smoke test
         run: |
           python -c "
-          import gradio, transformers, diffusers, accelerate
+          import gradio, transformers, diffusers, accelerate, peft
           import numpy, einops, omegaconf, safetensors
           import kornia, spandrel
           import git
