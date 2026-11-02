@@ -52,17 +52,17 @@ with open('/tmp/pip_deps_report.json') as f:
 #   overwrite them and break GPU inference.
 # triton: version-coupled to torch; mismatched triton causes inductor errors.
 # nvidia-*: CUDA libraries pulled in as torch sub-deps; huge and GPU-specific.
-# numpy: Colab 2.x is correct; the 1.26.4 downgrade breaks Colab's JAX/TF
-#   which call numpy.dtypes.StringDType (NumPy 2.x only); none of our blob
-#   packages use the NumPy C ABI directly.
-# tqdm/requests/psutil/lark/httpx/pydantic/scikit-image: already present in
-#   Colab at compatible versions (see requirements/forge.txt header comment);
-#   bundling them wastes space and risks version conflicts.
+# numpy: C ABI is tightly coupled to Colab's Python+CUDA build; a 1.26.4
+#   downgrade broke Colab's JAX/TF (numpy.dtypes.StringDType requires 2.x).
+#   None of the blob packages use the NumPy C ABI directly. Permanently excluded.
+# scikit-image: no Python 3.13 wheels exist for any release (checked through
+#   0.9.3); diffusers 0.31.0 imports it only in optional pipeline modules.
+# tqdm/requests/psutil/lark: stable stdlib-adjacent utilities; Colab versions
+#   are always compatible; adding them wastes space without predictability gain.
 COLAB_PROVIDED_NAMES = frozenset({
     'torch', 'torchvision', 'torchaudio', 'triton',
     'numpy',
     'tqdm', 'requests', 'psutil', 'lark',
-    'httpx', 'pydantic', 'pydantic_core',
     'scikit_image',
 })
 NVIDIA_PREFIX = re.compile(r'^nvidia[_-]', re.IGNORECASE)
@@ -94,7 +94,7 @@ pip install \
 # PYTHONPATH (which cell 5 sets for the Forge subprocess).  It runs after
 # site-packages are on sys.path, so Colab's numpy is already importable.
 #
-# It does three things:
+# It does two things:
 #   1. Disables TF/JAX backends in Transformers via USE_TF=0 / USE_FLAX=0.
 #      Transformers 4.46.1 checks these env vars at import time before calling
 #      find_spec(); setting them to "0" makes is_tf_available() /
@@ -106,10 +106,10 @@ pip install \
 #   2. Restores the NumPy 1.x aliases (np.Inf, np.NaN, np.bool, …) that
 #      NumPy 2.0 removed.  pytorch_lightning 1.9.4's ModelCheckpoint uses
 #      np.Inf; without this patch any Trainer instantiation raises AttributeError.
-#   3. Back-fills accelerate.utils.memory.clear_device_cache if absent.
-#      Colab's peft (>= 0.10) imports this function, which was added to
-#      accelerate after 0.31.0 (the version the blob pins for Forge compat).
-#      Without the shim, peft fails to import entirely, breaking diffusers LoRA.
+#
+# Note: the accelerate.utils.memory.clear_device_cache shim that was here in
+# v1.0.8–v1.0.11 has been removed. accelerate 0.34.2 (added in this PR) ships
+# clear_device_cache natively; the shim is no longer needed.
 cat > "$DIST_PACKAGES/sitecustomize.py" << 'SCEOF'
 import os
 
@@ -138,26 +138,6 @@ try:
         if not hasattr(_np, _k):
             setattr(_np, _k, _v)
 except ImportError:
-    pass
-
-# ── 3. accelerate.utils.memory.clear_device_cache shim ────────────
-# Added to accelerate after 0.31.0; Colab's peft imports it at startup.
-try:
-    import accelerate.utils.memory as _aum
-    if not hasattr(_aum, 'clear_device_cache'):
-        import gc as _gc
-        def _clear_device_cache(garbage_collection=False):
-            if garbage_collection:
-                _gc.collect()
-            try:
-                import torch as _torch
-                if _torch.cuda.is_available():
-                    _torch.cuda.empty_cache()
-            except ImportError:
-                pass
-        _aum.clear_device_cache = _clear_device_cache
-        del _clear_device_cache
-except (ImportError, AttributeError):
     pass
 SCEOF
 
@@ -237,7 +217,7 @@ PYTHONPATH="$DIST_PACKAGES" $PYTHON -c "
 import os
 os.environ.setdefault('USE_TF', '0')
 os.environ.setdefault('USE_FLAX', '0')
-import gradio, transformers, diffusers, accelerate
+import gradio, transformers, diffusers, accelerate, peft
 import numpy, einops, omegaconf, safetensors
 import kornia, torchdiffeq, torchsde, spandrel
 import pytorch_lightning

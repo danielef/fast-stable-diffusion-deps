@@ -12,7 +12,7 @@
     {
       "description": "Packages pinned below Colab's version due to Forge API compatibility — require manual review before merging",
       "matchManagers": ["pip_requirements"],
-      "matchPackageNames": ["gradio", "transformers", "diffusers", "accelerate", "protobuf", "Pillow", "open-clip-torch", "huggingface-hub"],
+      "matchPackageNames": ["gradio", "transformers", "diffusers", "accelerate", "peft", "protobuf", "Pillow", "open-clip-torch", "huggingface-hub"],
       "labels": ["downgrade-override"],
       "automerge": false,
       "schedule": ["every weekend"]
@@ -42,10 +42,16 @@
       "allowedVersions": ">=3.0.0,<4.0.0"
     },
     {
-      "description": "accelerate must stay on 0.x — Forge depends on 0.x API; v1 introduced breaking changes",
+      "description": "accelerate must stay on 0.x — v1 introduced breaking API changes for Forge; floor at 0.34.2 (last 0.x; has clear_device_cache natively; supports numpy 2.x)",
       "matchManagers": ["pip_requirements"],
       "matchPackageNames": ["accelerate"],
-      "allowedVersions": ">=0.0.0,<1.0.0"
+      "allowedVersions": ">=0.34.2,<1.0.0"
+    },
+    {
+      "description": "peft pinned for Forge/accelerate compatibility — must stay on 0.x; Renovate may bump within 0.x after CI validation",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["peft"],
+      "allowedVersions": ">=0.21.2,<1.0.0"
     },
     {
       "description": "open-clip-torch must stay on 2.x — v3 may introduce breaking API changes incompatible with Forge",
@@ -72,7 +78,27 @@
       "allowedVersions": ">=0.133.0,<1.0.0"
     },
     {
-      "description": "Forge-specific packages not in Colab — safe to automerge patch/minor updates",
+      "description": "httpx must satisfy gradio 4.40.0 (>=0.24.1); manual review — gradio's HTTP client is API-sensitive",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["httpx"],
+      "allowedVersions": ">=0.24.1"
+    },
+    {
+      "description": "pydantic must stay on 2.x — gradio 4.40.0 requires >=2.0; v3 would be a major API rewrite; manual review because pydantic minor releases have had breaking changes; grouped with pydantic-core so they are always bumped together in one PR",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["pydantic"],
+      "allowedVersions": ">=2.0.0,<3.0.0",
+      "groupName": "pydantic"
+    },
+    {
+      "description": "pydantic-core must match pydantic exactly — grouped with pydantic so Renovate always bumps both in the same PR; an independent pydantic-core bump would produce a conflicting pin",
+      "matchManagers": ["pip_requirements"],
+      "matchPackageNames": ["pydantic-core"],
+      "allowedVersions": ">=2.0.0,<3.0.0",
+      "groupName": "pydantic"
+    },
+    {
+      "description": "Forge-specific packages and stable pinned packages — safe to automerge patch/minor updates",
       "matchManagers": ["pip_requirements"],
       "matchPackageNames": [
         "GitPython",
@@ -96,10 +122,13 @@
         "gradio_imageslider",
         "loadimg",
         "setuptools",
-        "audioop-lts"
+        "audioop-lts",
+        "einops",
+        "safetensors"
       ],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
+      "matchUpdateTypes": ["patch", "minor"],
       "schedule": ["every weekend"]
     },
     {
