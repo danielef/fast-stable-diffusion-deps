@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.11...v1.0.12) (2026-11-02)
+
+
+### Bug Fixes
+
+* pin all Colab-floating packages to make blob fully predictable ([58d9898](https://github.com/danielef/fast-stable-diffusion-deps/commit/58d98988614e65c6affcea3a163aa29d08904da4))
+
 ## [1.0.11](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.10...v1.0.11) (2026-11-01)
 
 
