@@ -74,7 +74,7 @@ audioop-lts==0.2.2
 gradio==4.40.0
 transformers==4.46.1
 diffusers==0.31.0
-accelerate==0.31.0
+accelerate==0.34.2
 protobuf==3.20.0
 Pillow==10.4.0
 huggingface-hub==0.26.0
