@@ -102,7 +102,7 @@ fastapi==0.133.0
 
 # --- Pinned (lock version to prevent Colab drift breaking Forge) ---
 httpx==0.28.1
-pydantic==2.14.2
-pydantic_core==2.50.2
+pydantic==2.14.3
+pydantic_core==2.50.4
 einops==0.8.2
 safetensors==0.8.0
