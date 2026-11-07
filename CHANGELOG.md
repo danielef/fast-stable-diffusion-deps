@@ -1,3 +1,10 @@
+## [1.0.14](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.13...v1.0.14) (2026-11-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency blendmodes to v2024.1.1 ([bf1c00b](https://github.com/danielef/fast-stable-diffusion-deps/commit/bf1c00b432f84315eb0371a04dcecad10b648ca0))
+
 ## [1.0.13](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.12...v1.0.13) (2026-11-07)
 
 
