@@ -1,3 +1,10 @@
+## [1.0.15](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.14...v1.0.15) (2026-11-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency gitpython to v3.2.1 ([a985d72](https://github.com/danielef/fast-stable-diffusion-deps/commit/a985d727e00b73aac5c097074250f510f2e3f7fa))
+
 ## [1.0.14](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.13...v1.0.14) (2026-11-07)
 
 
