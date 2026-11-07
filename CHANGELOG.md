@@ -1,3 +1,10 @@
+## [1.0.13](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.12...v1.0.13) (2026-11-07)
+
+
+### Bug Fixes
+
+* **deps:** update dependency torchdiffeq to v0.2.5 ([6815fbc](https://github.com/danielef/fast-stable-diffusion-deps/commit/6815fbc6573163a7654fd3ef20d8f72f97a589b0))
+
 ## [1.0.12](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.11...v1.0.12) (2026-11-02)
 
 
