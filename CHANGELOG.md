@@ -1,3 +1,10 @@
+## [1.0.16](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.15...v1.0.16) (2026-11-08)
+
+
+### Bug Fixes
+
+* **deps:** update dependency jsonmerge to v1.9.2 ([662524a](https://github.com/danielef/fast-stable-diffusion-deps/commit/662524ab5c6ec976a6ca2345a4bb60dd9a9aefe8))
+
 ## [1.0.15](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.14...v1.0.15) (2026-11-07)
 
 
