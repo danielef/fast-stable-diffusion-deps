@@ -1,3 +1,10 @@
+## [1.0.18](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.17...v1.0.18) (2026-11-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency loadimg to v0.5.0 ([8783233](https://github.com/danielef/fast-stable-diffusion-deps/commit/8783233a69a5067da840414c9bed67e0ff7b8e6b))
+
 ## [1.0.17](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.16...v1.0.17) (2026-11-08)
 
 
