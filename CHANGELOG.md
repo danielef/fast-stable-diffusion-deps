@@ -1,3 +1,10 @@
+## [1.0.19](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.18...v1.0.19) (2026-11-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency omegaconf to v2.4.0 ([05d9779](https://github.com/danielef/fast-stable-diffusion-deps/commit/05d97793bf68e5b1e39b0741218d713b9aa2899c))
+
 ## [1.0.18](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.17...v1.0.18) (2026-11-09)
 
 
