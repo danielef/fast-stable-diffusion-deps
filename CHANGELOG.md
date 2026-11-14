@@ -1,3 +1,10 @@
+## [1.0.20](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.19...v1.0.20) (2026-11-14)
+
+
+### Bug Fixes
+
+* **deps:** update dependency kornia to v0.9.1 ([b12c9e4](https://github.com/danielef/fast-stable-diffusion-deps/commit/b12c9e4893e848e990b4a3762c02bef4cfc63725))
+
 ## [1.0.19](https://github.com/danielef/fast-stable-diffusion-deps/compare/v1.0.18...v1.0.19) (2026-11-09)
 
 
